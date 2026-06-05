@@ -18,23 +18,9 @@ Use Bash when:
 
 ## Shebangs
 
-Use:
-
-```sh
-#!/bin/sh
-```
-
-for POSIX scripts.
-
-Use:
-
-```bash
-#!/usr/bin/env bash
-```
-
-for portable Bash lookup across systems.
-
-Use an absolute Bash path only when the deployment environment requires it.
+- `#!/bin/sh` — POSIX scripts.
+- `#!/usr/bin/env bash` — portable Bash lookup across systems.
+- Absolute Bash path — only when the deployment environment requires it.
 
 ## POSIX sh Constraints
 
