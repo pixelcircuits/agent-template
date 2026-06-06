@@ -24,9 +24,11 @@ requirements, regression risk, and missing tests.
    are unstaged changes, stop and ask the user to stage the intended review set
    before continuing.
 
-2. **Read the plan and issue.** Review root `plan.md` and `issue.md` when
-   present. Compare staged changes against requirements, expectations, completed
-   phase scope, and validation notes.
+2. **Read the plan, issue, and specs.** Review root `plan.md`, `issue.md`, and
+   applicable `spec.md` files when present. Treat `issue.md` and `plan.md` as
+   the freshest authority for the current change. Use specs as baseline context
+   and older constraints, recognizing they may be stale because spec updates
+   happen after review.
 
 3. **Inspect the staged diff.** Use `git diff --cached` and targeted file reads
    to understand behavior, not just patch shape.
@@ -50,6 +52,11 @@ requirements, regression risk, and missing tests.
 8. **Run regression checks.** Run the repo's relevant full regression suite when
    available, plus linters and format checks. Report commands run and any checks
    that could not be run.
+
+9. **Do not update specs by default.** If staged changes intentionally supersede
+   stale `spec.md` content, report the needed spec follow-up rather than treating
+   that staleness as a defect in the implementation. Do not create, edit, or
+   delete `spec.md` files unless the user specifically asks for spec updates.
 
 ## Review Output
 
@@ -79,6 +86,8 @@ checks not run.
 ## Review Checklist
 
 - Requirements from `issue.md` and `plan.md` are met.
+- Applicable `spec.md` requirements and constraints are preserved unless
+  superseded by the current `issue.md` or `plan.md`.
 - The completed plan phase matches the staged changes.
 - Naming is clear, consistent, and domain-appropriate.
 - Existing utilities, components, helpers, and patterns are reused where they
@@ -93,6 +102,8 @@ checks not run.
 
 - Do not review unrelated unstaged work.
 - Do not rewrite code during review unless the user explicitly asks for fixes.
+- Do not modify `spec.md` files unless the user specifically asks for spec
+  maintenance.
 - Do not approve broad diffs just because tests pass.
 - Do not block on style preferences unless they affect maintainability,
   consistency, or correctness.

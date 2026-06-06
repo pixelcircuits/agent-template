@@ -27,26 +27,34 @@ they are required to complete the selected phase.
    unchecked phase or task. Implement only that item unless the plan or user
    explicitly says to do more.
 
-3. **Load relevant best practices.** Use the repo's applicable language or
+3. **Read applicable specs.** Read the root `spec.md` and the closest applicable
+   nested `spec.md` for the selected work area when they exist. Treat explicit
+   user instructions and `plan.md` as fresher than specs for the current change.
+   Follow still-applicable spec constraints during implementation; if the plan
+   intentionally supersedes stale spec content, execute the plan and report the
+   needed spec maintenance. Do not create, edit, or delete `spec.md` files unless
+   the user specifically asks for spec updates.
+
+4. **Load relevant best practices.** Use the repo's applicable language or
    framework best-practices skills when they apply.
 
-4. **Inspect before editing.** Read the relevant code, tests, configs, and
+5. **Inspect before editing.** Read the relevant code, tests, configs, and
    existing utilities. Prefer local patterns and helper APIs over new
    abstractions.
 
-5. **Implement the phase.** Keep changes scoped to the selected plan item. Add
+6. **Implement the phase.** Keep changes scoped to the selected plan item. Add
    or update tests and temporary execution sanity checks when they improve
    confidence.
 
-6. **Evaluate from the user's perspective.** When applicable, verify the changed
+7. **Evaluate from the user's perspective.** When applicable, verify the changed
    API, UI, CLI, or workflow as a user would. Use Playwright or a browser sanity
    check for UI work when the plan expects it.
 
-7. **Run final checks.** Run the repo's formatter check or formatter, linter,
+8. **Run final checks.** Run the repo's formatter check or formatter, linter,
    relevant tests, and broader regression checks available for the changed area.
    If a check cannot run, record why.
 
-8. **Mark done last.** Only after implementation and validation are complete,
+9. **Mark done last.** Only after implementation and validation are complete,
    update `plan.md` by changing the completed item's checkbox from `[ ]` to
    `[x]`. This is the only normal execution edit to `plan.md`.
 
@@ -54,6 +62,10 @@ they are required to complete the selected phase.
 
 During normal execution, do not revise `plan.md` except to mark the selected item
 done.
+
+Do not update `spec.md` files during execution unless the user specifically asks
+for spec updates. If implementation reveals stale or missing spec guidance,
+report that in the final response or plan notes instead.
 
 If the user later asks to update the plan after checking the work:
 
@@ -79,6 +91,8 @@ If the user later asks to update the plan after checking the work:
   phase whenever feasible.
 - Do not mark a plan item done when important validation is missing without
   clearly reporting the gap.
+- Do not modify `spec.md` files unless the user specifically asks for spec
+  maintenance.
 - Keep the final response focused on what changed, what was validated, and any
   remaining risk.
 - Stay available for small user-requested follow-up revisions after the phase is
