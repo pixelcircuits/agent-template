@@ -160,6 +160,11 @@ checks not run.
 - Do not review unrelated current work.
 - Do not require ignored workflow artifacts such as `plan.md` to be staged.
 - Do not rewrite code during review unless the user explicitly asks for fixes.
+- If you are asked to fix findings in the same session, treat fixing as a
+  separate pass from review: keep the reviewed baseline staged and leave your
+  fix edits unstaged so they remain reviewable as a distinct layer. Do not run
+  `git add` (and never `git add -A`) on your own fixes unless the user
+  explicitly asks.
 - Do not treat staging as approval; staging only means the reviewer inspected
   the change.
 - Do not modify `spec.md` files unless the user specifically asks for spec
