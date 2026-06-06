@@ -106,4 +106,9 @@ editing the spec.
   stale or incomplete, call that out instead of changing them.
 - Spec maintenance is a separate, explicitly requested pass that updates, adds,
   or removes affected `spec.md` files so they describe current intended
-  behavior. Remove outdated requirements rather than preserving stale history.
+  behavior. During spec maintenance, read the current `issue.md`, `plan.md`,
+  reviewed implementation changes, and applicable existing specs before editing
+  specs. Use `issue.md` and `plan.md` to understand the intended change and any
+  accepted requirements, but write specs as durable current-state guidance, not
+  as issue history, plan history, or a changelog. Remove outdated requirements
+  rather than preserving stale history.
