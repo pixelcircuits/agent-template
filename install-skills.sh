@@ -2,11 +2,12 @@
 set -Eeuo pipefail
 
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+home_dir="${HOME:?HOME is not set}"
 
 targets=(
-  "$repo_root/.codex/skills"
-  "$repo_root/.claude/skills"
-  "$repo_root/.agents/skills"
+  "$home_dir/.codex/skills"
+  "$home_dir/.claude/skills"
+  "$home_dir/.agents/skills"
 )
 
 # Temp dirs created during installs, removed on exit by cleanup().

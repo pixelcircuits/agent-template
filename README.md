@@ -35,7 +35,7 @@ directories.
 
 ### Installing Skills
 
-Use the root install script to copy every skill from `skills/` into the local agent skill directories:
+Use the root install script to copy every skill from `skills/` into the home-directory agent skill directories:
 
 ```bash
 ./install-skills.sh
@@ -43,9 +43,9 @@ Use the root install script to copy every skill from `skills/` into the local ag
 
 By default, the script installs skills into:
 
-- `.codex/skills`
-- `.claude/skills`
-- `.agents/skills`
+- `~/.codex/skills`
+- `~/.claude/skills`
+- `~/.agents/skills`
 
 To install from a different source directory, pass the path as the first argument:
 
