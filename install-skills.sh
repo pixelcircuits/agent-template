@@ -62,6 +62,7 @@ copy_skill() {
 
   rm -rf -- "$tmp_dest"
   cp -a -- "$skill_dir" "$tmp_dest"
+  printf '%s\n' "$repo_root" > "$tmp_dest/source.txt"
   rm -rf -- "$dest"
   mv -- "$tmp_dest" "$dest"
 }

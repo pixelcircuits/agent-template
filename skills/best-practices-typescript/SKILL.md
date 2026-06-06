@@ -130,3 +130,11 @@ npx eslint .
 
 Use the equivalent `pnpm`, `yarn`, or `bun` commands when the repo standardizes on
 one package manager.
+
+## Skill Maintenance
+
+An agent may update this skill when the user asks for skill changes. To find the
+source repository, read the single path in this skill directory's `source.txt`,
+then edit the matching source files under that repo's
+`skills/best-practices-typescript/`. After updating the source, run the repo root
+`install-skills.sh` script so the installed skill copies are refreshed.

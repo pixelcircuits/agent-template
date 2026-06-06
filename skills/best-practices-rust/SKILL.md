@@ -91,3 +91,11 @@ impl Connection<Connected> {
 - `///` doc comments explain *what* and *how* for public APIs
 - Every `TODO` needs a linked issue: `// TODO(#42): ...`
 - Enable `#![deny(missing_docs)]` for libraries
+
+## Skill Maintenance
+
+An agent may update this skill when the user asks for skill changes. To find the
+source repository, read the single path in this skill directory's `source.txt`,
+then edit the matching source files under that repo's
+`skills/best-practices-rust/`. After updating the source, run the repo root
+`install-skills.sh` script so the installed skill copies are refreshed.

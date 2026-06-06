@@ -72,17 +72,35 @@ editing the spec.
   `issue.md`, especially when requirements or constraints are unclear.
 - Planners must read applicable specs before writing `plan.md` and copy any
   relevant still-applicable constraints, acceptance criteria, or local patterns
-  into the plan. If the current issue intentionally supersedes stale spec
+  into the plan. Plan phases must use one of these state markers: `[ ]`,
+  `[executing]`, `[awaiting-review]`, `[reviewing]`, or `[done]`. New phases
+  start as `[ ]`. If the current issue intentionally supersedes stale spec
   content, plan from the issue and note the needed spec maintenance.
 - Executors must read applicable specs before editing and keep changes
-  consistent with still-applicable constraints. If `plan.md` intentionally
-  supersedes stale spec content, execute the plan and report the needed spec
-  maintenance.
+  consistent with still-applicable constraints. Executors leave phases marked
+  `[awaiting-review]`, `[reviewing]`, or `[done]` for the reviewer and never
+  close reviewed work themselves. Executors move the selected `[ ]` plan phase
+  to `[executing]` before implementation, then to `[awaiting-review]` after
+  implementation and validation, then move on to the next `[ ]` phase. Because
+  executors do not close reviewed work, several phases may sit in
+  `[awaiting-review]` at once. If `plan.md` intentionally supersedes stale spec
+  content, execute the plan and report the needed spec maintenance.
 - Reviewers must treat `issue.md` and `plan.md` as the freshest authority for
   the current change. Specs provide baseline context and may be stale, since
-  spec updates happen after review. Call out unexpected drift, violated
-  still-applicable constraints, missing tests, and spec updates that the later
-  maintenance pass should make.
+  spec updates happen after review. Reviewers always review every phase marked
+  `[awaiting-review]`, first move all of those phases to `[reviewing]`, and
+  review current unstaged implementation changes rather than requiring work to
+  be staged first. Reviews must check code best practices for the applicable
+  language, framework, and project patterns. Because executors do not close
+  their own work, a single review pass may cover several `[reviewing]` phases at
+  once. As each file, hunk, or coherent change is reviewed, reviewers stage it
+  whether it is good or has findings; staging means inspected, not approved.
+  After a phase's changes have been reviewed and staged, the reviewer moves that
+  phase from `[reviewing]` to `[done]`. Reviewers end with reviewed
+  implementation changes staged so human follow-up fixes can be made before the
+  eventual commit and push. Call out unexpected drift, violated still-applicable
+  constraints, missing tests, best-practice issues, and spec updates that the
+  later maintenance pass should make.
 - Planners, executors, and reviewers must not create, edit, or delete `spec.md`
   files unless the user specifically asks for spec maintenance. When specs look
   stale or incomplete, call that out instead of changing them.

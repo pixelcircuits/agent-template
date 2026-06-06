@@ -115,3 +115,11 @@ the user did not specify them.
 - Notes contain useful context that does not belong in another section.
 - Open questions should not prevent a stub issue unless they materially change
   whether the work should proceed.
+
+## Skill Maintenance
+
+An agent may update this skill when the user asks for skill changes. To find the
+source repository, read the single path in this skill directory's `source.txt`,
+then edit the matching source files under that repo's
+`skills/role-issue-builder/`. After updating the source, run the repo root
+`install-skills.sh` script so the installed skill copies are refreshed.

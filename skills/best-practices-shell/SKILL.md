@@ -45,3 +45,11 @@ Read only what the task needs:
 Reach for Python, Go, Rust, or a project-standard language when you need complex data
 structures, JSON/YAML mutation, real concurrency, cross-platform robustness, or many
 unit tests around internal logic.
+
+## Skill Maintenance
+
+An agent may update this skill when the user asks for skill changes. To find the
+source repository, read the single path in this skill directory's `source.txt`,
+then edit the matching source files under that repo's
+`skills/best-practices-shell/`. After updating the source, run the repo root
+`install-skills.sh` script so the installed skill copies are refreshed.
