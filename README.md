@@ -57,3 +57,8 @@ To install from a different source directory, pass the path as the first argumen
 ## AGENTS.md
 
 `AGENTS.md` contains a reusable repo-level guidance for agents. It outlines the process for spec driven development, including how `spec.md` files should be interpreted and which roles or workflows should pay attention to them.
+
+## Notes
+
+- Could consider adding a review on the plan stage as well
+- Integrate with githubs spec kit

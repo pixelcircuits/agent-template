@@ -1,5 +1,5 @@
 ---
-name: role-definer
+name: role-issue-builder
 description: >
   Step 0 issue definition skill. Use when defining work, drafting issues,
   creating lightweight stub issues, gathering issue context from sources, or
@@ -10,7 +10,7 @@ metadata:
 allowed-tools: Read Write Edit Glob Grep
 ---
 
-# Role Definer
+# Role Issue Builder
 
 Use this skill during Step 0 to turn a user request or gathered source material
 into an `issue.md` file that planning and execution agents can rely on.
