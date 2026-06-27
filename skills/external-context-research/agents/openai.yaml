@@ -1,0 +1,4 @@
+interface:
+  display_name: "External Context Research"
+  short_description: "Research external context for any task"
+  default_prompt: "Use $external-context-research to gather source-backed context before starting the task."
