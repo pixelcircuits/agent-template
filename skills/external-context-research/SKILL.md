@@ -1,6 +1,6 @@
 ---
 name: external-context-research
-description: Gather read-only external context for any task, decision, investigation, implementation, plan, document, or question while isolating retrieval in sub-agents. Use when a user asks to research background or connected sources such as Gmail/email threads, Obsidian or other notes, meeting notes, Git/GitHub/GitLab issues or PRs, Jira, Linear, ticket trackers, project-management tools, documents, or other external context sources before doing downstream work.
+description: Gather read-only external context for any task, decision, investigation, implementation, plan, document, or question while isolating retrieval in sub-agents. Use when a user asks to research background or connected sources such as Gmail/email threads, Slack or other chat/collaboration platforms, Obsidian or other notes, Notion or other workspace knowledge bases, meeting notes, Git/GitHub/GitLab issues or PRs, Jira, Linear, ticket trackers, project-management tools, documents, or other external context sources before doing downstream work.
 ---
 
 # External Context Research
@@ -41,8 +41,9 @@ Forbidden actions include:
 
 - Sending, drafting, forwarding, archiving, deleting, labeling, or marking email.
 - Creating, editing, moving, deleting, tagging, or linking notes.
+- Posting, editing, deleting, reacting to, pinning, bookmarking, or changing chat or collaboration messages.
 - Creating, editing, closing, assigning, labeling, commenting on, or transitioning issues, PRs, Jira tickets, Linear issues, or other tracker items.
-- Writing meeting notes, updating calendars, changing project metadata, or mutating external systems in any way.
+- Writing meeting notes, updating calendars, changing pages or databases, changing project metadata, or mutating external systems in any way.
 
 If a connector exposes both read and write tools, use only the read/search tools. If the available tool names or permissions are unclear, skip that source and report it as unavailable or unsafe to use.
 
@@ -52,6 +53,8 @@ Discover tools by capability terms and source family, not by fixed connector nam
 
 - `email`, `mail`, `gmail`, `thread`, `message`
 - `notes`, `obsidian`, `vault`, `meeting notes`, `document`
+- `chat`, `slack`, `teams`, `channel`, `conversation`, `message`
+- `notion`, `confluence`, `wiki`, `knowledge base`, `workspace`, `page`, `database`
 - `git`, `github`, `gitlab`, `issue`, `pull request`, `merge request`, `commit`
 - `jira`, `linear`, `ticket`, `tracker`, `project`
 - Any other source family implied by the user's request
@@ -62,7 +65,7 @@ Group discovered read/search tools into source families. Include a source family
 
 When sub-agent tooling is available, do all external source research inside sub-agents, even if only one source family is available. This isolates large source payloads, such as long email threads, issue histories, documents, or meeting transcripts, from the main thread.
 
-Spawn one sub-agent per source family. If only one source family can be searched, spawn one sub-agent for that family. Each sub-agent task must include:
+Spawn one sub-agent per source family with `reasoning_effort: "medium"` when the sub-agent tool supports reasoning effort. If only one source family can be searched, spawn one sub-agent for that family. Each sub-agent task must include:
 
 - The research topic and downstream task.
 - The derived search terms relevant to that source.
@@ -86,9 +89,21 @@ Email:
 
 Notes and meeting notes:
 
-- Search notes, meeting records, docs, and vaults for the topic and related identifiers.
+- Search notes, meeting records, docs, workspace knowledge bases, and vaults for the topic and related identifiers.
 - Read only high-signal notes.
 - Return decisions, requirements, action items, risks, and vault-relative paths or document identifiers.
+
+Chat and collaboration platforms such as Slack, Teams, and similar tools:
+
+- Search relevant channels, threads, conversations, and messages using topic terms, names, and ticket or project identifiers.
+- Read only high-signal conversations.
+- Return decisions, requirements, status updates, stakeholders, unresolved questions, and channel/thread/message identifiers.
+
+Workspace knowledge bases such as Notion, Confluence, wikis, and similar tools:
+
+- Search pages, databases, docs, and team spaces for the topic and related identifiers.
+- Read only high-signal pages or records.
+- Return decisions, requirements, ownership, action items, risks, and page, database, or document identifiers.
 
 Git, issues, PRs, and merge requests:
 
@@ -116,7 +131,7 @@ Produce concise synthesis instead of raw source dumps. Include these sections:
 5. `Risks and Dependencies`: Implementation risks, sequencing concerns, blockers, privacy concerns, or operational constraints.
 6. `Conflicts or Ambiguity`: Conflicting scope, status, decisions, or unclear facts, with sources on each side. When timestamped sources conflict, treat the newest timestamped signal as superseding older signals unless there is evidence that the newer source is stale, erroneous, or about a different scope.
 7. `Open Questions`: Questions that should be resolved before or during the downstream work.
-8. `Source Trails`: Compact citations using available source identifiers, such as thread IDs, message dates, note paths, issue URLs, PR numbers, ticket IDs, or document names.
+8. `Source Trails`: Compact citations using available source identifiers, such as thread IDs, message dates, channel names, message links, note paths, page IDs, issue URLs, PR numbers, ticket IDs, or document names.
 9. `Source Coverage`: Sources searched, search terms used, sources unavailable, and any sub-agent or connector limitations.
 
 When no relevant context is found, say that no relevant external context was found and list the sources searched. When sources disagree, preserve the conflict instead of choosing one side silently; if newer timestamped evidence supersedes older evidence, state that ordering and cite both.

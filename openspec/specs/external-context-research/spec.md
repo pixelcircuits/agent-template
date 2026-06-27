@@ -13,7 +13,7 @@ The system SHALL provide an `external-context-research` skill that is appropriat
 - **THEN** the skill is applicable before the downstream work begins
 
 #### Scenario: User names specific external sources
-- **WHEN** a user asks to research emails, notes, tickets, issues, documents, or meeting notes for any topic
+- **WHEN** a user asks to research emails, chat or collaboration platforms, notes, workspace knowledge bases, tickets, issues, documents, or meeting notes for any topic
 - **THEN** the skill is applicable for gathering and synthesizing that context
 
 ### Requirement: Research is read-only
@@ -30,12 +30,16 @@ The skill SHALL discover available external context sources by searching for sou
 - **WHEN** email and note search tools are discoverable
 - **THEN** the skill includes email and note source families in the research plan
 
+#### Scenario: Slack and Notion are available
+- **WHEN** chat or workspace knowledge-base search tools are discoverable
+- **THEN** the skill includes chat/collaboration and workspace knowledge-base source families in the research plan
+
 #### Scenario: Jira is unavailable
 - **WHEN** no Jira or ticket-tracking search tool is discoverable
 - **THEN** the skill reports that ticket-tracking search was unavailable instead of failing the research process
 
 ### Requirement: Searches run through sub-agents for context isolation
-The skill SHALL delegate source-family searches to sub-agents when sub-agent tooling is available, even when only one source family can be searched.
+The skill SHALL delegate source-family searches to sub-agents when sub-agent tooling is available, even when only one source family can be searched. When the sub-agent tool supports reasoning effort configuration, the skill SHALL spawn research sub-agents with medium reasoning effort.
 
 #### Scenario: One source family is available
 - **WHEN** one source family can be searched and sub-agent tooling is available
@@ -44,6 +48,10 @@ The skill SHALL delegate source-family searches to sub-agents when sub-agent too
 #### Scenario: Multiple source families are available
 - **WHEN** at least two independent source families can be searched and sub-agent tooling is available
 - **THEN** the parent agent spawns separate sub-agents for those source families and runs them in parallel when supported before synthesizing results
+
+#### Scenario: Sub-agent reasoning effort is configurable
+- **WHEN** the parent agent spawns a research sub-agent and the sub-agent tool supports reasoning effort configuration
+- **THEN** the parent agent sets the research sub-agent reasoning effort to medium
 
 #### Scenario: Large source material is relevant
 - **WHEN** source searches may require inspecting long transcripts, threads, notes, documents, or ticket histories
@@ -63,6 +71,14 @@ The skill SHALL give each sub-agent a source-specific task that includes the res
 #### Scenario: Obsidian sub-agent is spawned
 - **WHEN** the parent agent delegates notes research
 - **THEN** the sub-agent receives instructions to search relevant notes and meeting notes, read only high-signal notes, and return concise findings with vault-relative paths
+
+#### Scenario: Slack sub-agent is spawned
+- **WHEN** the parent agent delegates chat or collaboration-platform research
+- **THEN** the sub-agent receives instructions to search relevant channels, threads, conversations, and messages, read only high-signal conversations, and return concise findings with channel, thread, or message identifiers
+
+#### Scenario: Notion sub-agent is spawned
+- **WHEN** the parent agent delegates workspace knowledge-base research
+- **THEN** the sub-agent receives instructions to search relevant pages, databases, docs, and team spaces, read only high-signal pages or records, and return concise findings with page, database, or document identifiers
 
 ### Requirement: Research brief is concise and source-backed
 The skill SHALL synthesize findings into a compact research brief suitable for use by the user's downstream task.
