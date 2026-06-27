@@ -7,7 +7,6 @@ home_dir="${HOME:?HOME is not set}"
 targets=(
   "$home_dir/.codex/skills"
   "$home_dir/.claude/skills"
-  "$home_dir/.agents/skills"
 )
 
 # Temp dirs created during installs, removed on exit by cleanup().

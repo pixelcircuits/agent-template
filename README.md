@@ -45,7 +45,6 @@ By default, the script installs skills into:
 
 - `~/.codex/skills`
 - `~/.claude/skills`
-- `~/.agents/skills`
 
 To install from a different source directory, pass the path as the first argument:
 

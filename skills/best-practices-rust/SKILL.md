@@ -1,101 +1,50 @@
 ---
 name: best-practices-rust
 description: >
-  Guide for writing idiomatic Rust code. Use this skill when:
-  (1) writing new Rust code or functions,
-  (2) reviewing or refactoring existing Rust code,
-  (3) deciding between borrowing vs cloning or ownership patterns,
-  (4) implementing error handling with Result types,
-  (5) optimizing Rust code for performance,
-  (6) writing tests or documentation for Rust projects.
-license: MIT
-compatibility: Rust 1.70+, Cargo
-metadata:
-  version: "1.1.0"
-allowed-tools: Bash(cargo:*) Bash(rustc:*) Bash(rustfmt:*) Bash(clippy:*) Read Write Edit Glob Grep
+  Guide for writing idiomatic Rust code. Use this skill when writing, reviewing,
+  or refactoring Rust code, ownership and borrowing, Result-based error
+  handling, tests, docs, Cargo, clippy, rustfmt, performance, or API design.
 ---
 
 # Rust Best Practices
 
-Apply these guidelines when writing or reviewing Rust code.
+Prefer local crate conventions first. Keep ownership explicit, errors typed, and
+unsafe code absent unless the task clearly requires it.
 
-## Best Practices Reference
+## References
 
-Read ALL relevant chapters in the same turn in parallel. Reference these files when providing feedback:
+Read only what the task needs:
 
-- [Chapter 1 - Coding Styles and Idioms](references/chapter_01.md): Borrowing vs cloning, Copy trait, Option/Result handling, iterators, comments
-- [Chapter 2 - Clippy and Linting](references/chapter_02.md): Clippy configuration, important lints, workspace lint setup
-- [Chapter 3 - Performance Mindset](references/chapter_03.md): Profiling, avoiding redundant clones, stack vs heap, zero-cost abstractions
-- [Chapter 4 - Error Handling](references/chapter_04.md): Result vs panic, thiserror vs anyhow, error hierarchies
-- [Chapter 5 - Automated Testing](references/chapter_05.md): Test naming, one assertion per test, snapshot testing
-- [Chapter 6 - Generics and Dispatch](references/chapter_06.md): Static vs dynamic dispatch, trait objects
-- [Chapter 7 - Type State Pattern](references/chapter_07.md): Compile-time state safety, when to use it
-- [Chapter 8 - Comments vs Documentation](references/chapter_08.md): When to comment, doc comments, rustdoc
-- [Chapter 9 - Understanding Pointers](references/chapter_09.md): Thread safety, Send/Sync, pointer types
+- [Chapter 1](references/chapter_01.md): ownership, `Copy`, `Option`/`Result`, iterators, imports
+- [Chapter 2](references/chapter_02.md): clippy and workspace lints
+- [Chapter 3](references/chapter_03.md): profiling, allocation, clones, stack vs heap
+- [Chapter 4](references/chapter_04.md): `Result`, panic boundaries, `thiserror`, `anyhow`
+- [Chapter 5](references/chapter_05.md): unit, integration, doc, and snapshot tests
+- [Chapter 6](references/chapter_06.md): generics, `impl Trait`, `dyn Trait`
+- [Chapter 7](references/chapter_07.md): type-state pattern
+- [Chapter 8](references/chapter_08.md): comments and rustdoc
+- [Chapter 9](references/chapter_09.md): pointers, `Send`/`Sync`, shared ownership
 
-## Quick Reference
+## Defaults
 
-### Borrowing & Ownership
-- Prefer `&T` over `.clone()` unless ownership transfer is required
-- Use `&str` over `String`, `&[T]` over `Vec<T>` in function parameters
-- Small `Copy` types (≤24 bytes) can be passed by value
-- Use `Cow<'_, T>` when ownership is ambiguous
+- Borrow with `&T`, `&str`, and `&[T]` unless ownership transfer is required.
+- Avoid `clone` in loops and APIs that should accept borrowed data.
+- Return `Result<T, E>` for fallible operations. Avoid `unwrap` and `expect`
+  outside tests and prototypes.
+- Use `thiserror` for library errors and `anyhow` for binary/application edges.
+- Prefer iterators for simple transformations and loops for early exit, stateful
+  control flow, or clearer error handling.
+- Use static dispatch (`impl Trait` or generics) by default; use `dyn Trait` for
+  heterogeneous collections or plugin-style boundaries.
+- Keep public APIs documented. Comments should explain rationale, invariants, or
+  surprising constraints.
 
-### Error Handling
-- Return `Result<T, E>` for fallible operations; avoid `panic!` in production
-- Never use `unwrap()`/`expect()` outside tests
-- Use `thiserror` for library errors, `anyhow` for binaries only
-- Prefer `?` operator over match chains for error propagation
+## Common Checks
 
-### Performance
-- Always benchmark with `--release` flag
-- Run `cargo clippy -- -D clippy::perf` for performance hints
-- Avoid cloning in loops; use `.iter()` instead of `.into_iter()` for Copy types
-- Prefer iterators over manual loops; avoid intermediate `.collect()` calls
+Use repo scripts first. Fallbacks:
 
-### Linting
-Run regularly: `cargo clippy --all-targets --all-features --locked -- -D warnings`
-
-Key lints to watch:
-- `redundant_clone` - unnecessary cloning
-- `large_enum_variant` - oversized variants (consider boxing)
-- `needless_collect` - premature collection
-
-Use `#[expect(clippy::lint)]` over `#[allow(...)]` with justification comment.
-
-### Testing
-- Name tests descriptively: `process_should_return_error_when_input_empty()`
-- One assertion per test when possible
-- Use doc tests (`///`) for public API examples
-- Consider `cargo insta` for snapshot testing generated output
-
-### Generics & Dispatch
-- Prefer generics (static dispatch) for performance-critical code
-- Use `dyn Trait` only when heterogeneous collections are needed
-- Box at API boundaries, not internally
-
-### Type State Pattern
-Encode valid states in the type system to catch invalid operations at compile time:
-```rust
-struct Connection<State> { /* ... */ _state: PhantomData<State> }
-struct Disconnected;
-struct Connected;
-
-impl Connection<Connected> {
-    fn send(&self, data: &[u8]) { /* only connected can send */ }
-}
+```sh
+cargo fmt --check
+cargo clippy --all-targets --all-features -- -D warnings
+cargo test --all-targets --all-features
 ```
-
-### Documentation
-- `//` comments explain *why* (safety, workarounds, design rationale)
-- `///` doc comments explain *what* and *how* for public APIs
-- Every `TODO` needs a linked issue: `// TODO(#42): ...`
-- Enable `#![deny(missing_docs)]` for libraries
-
-## Skill Maintenance
-
-An agent may update this skill when the user asks for skill changes. To find the
-source repository, read the single path in this skill directory's `source.txt`,
-then edit the matching source files under that repo's
-`skills/best-practices-rust/`. After updating the source, run the repo root
-`install-skills.sh` script so the installed skill copies are refreshed.

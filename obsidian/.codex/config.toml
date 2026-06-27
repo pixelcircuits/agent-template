@@ -1,0 +1,4 @@
+[mcp_servers.obsidian]
+type = "http"
+url = "http://127.0.0.1:27123/mcp/"
+http_headers = { Authorization = "Bearer <token>" }

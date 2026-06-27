@@ -3,53 +3,42 @@ name: best-practices-shell
 description: >
   Guide for writing, reviewing, and refactoring Unix shell scripts (POSIX sh,
   Bash, dash, zsh). Use when creating or editing scripts, choosing between POSIX
-  sh and Bash, improving quoting/error handling/pipelines/traps/cleanup/argument
-  parsing/portability, adding ShellCheck, shfmt, shell tests, or CI validation,
-  or reviewing for safety, maintainability, and Unix compatibility.
-license: MIT
-compatibility: POSIX sh, Bash 3.2+, Bash 4+, dash, zsh, Unix-like systems
-metadata:
-  version: "1.0.0"
-allowed-tools: Bash(shellcheck:*) Bash(shfmt:*) Bash(bash:*) Bash(sh:*) Bash(dash:*) Bash(zsh:*) Read Write Edit Glob Grep
+  sh and Bash, improving quoting, error handling, pipelines, traps, cleanup,
+  argument parsing, portability, ShellCheck, shfmt, tests, or CI validation.
 ---
 
 # Shell Best Practices
+
+Prefer the repo's existing shell, style, and tooling. Use shell for small glue
+around commands; switch to a project language for complex data, JSON/YAML
+mutation, concurrency, or heavily tested logic.
 
 ## References
 
 Read only what the task needs:
 
-- [Portability](references/portability.md): POSIX sh vs Bash, shebangs, arrays, process substitution, macOS
-- [Safety](references/safety.md): strict mode, quoting, traps, cleanup, pipelines, temp files
-- [Style](references/style.md): structure, naming, functions, argument parsing, logging
-- [Tooling & Testing](references/tooling-testing.md): ShellCheck, shfmt, bats-core, shellspec, CI
-- [Review Checklist](references/review-checklist.md): checklist for shell code reviews
+- [Portability](references/portability.md): POSIX sh vs Bash, shebangs, macOS, utility flags
+- [Safety](references/safety.md): strict mode, quoting, traps, temp files, pipelines
+- [Style](references/style.md): structure, naming, functions, argument parsing, output
+- [Tooling and Testing](references/tooling-testing.md): ShellCheck, shfmt, syntax checks, shell tests
+- [Review Checklist](references/review-checklist.md): shell review checklist
 
-## Core Workflow
+## Defaults
 
-1. **Pick the shell.** Use POSIX `sh` for portability; use Bash when arrays, `[[ ]]`,
-   process substitution, or `pipefail` materially simplify the script.
+- Pick the interpreter first, then use syntax valid for that interpreter.
+- Quote expansions unless splitting or globbing is intentional.
+- Prefer `printf` over `echo`; avoid parsing `ls`; avoid `eval`.
+- Bash: consider `set -Eeuo pipefail`. POSIX sh: use `set -eu` where it fits.
+- Handle expected failures with explicit `if`, `case`, or status checks.
+- Use idempotent `trap` cleanup for temp files and directories.
 
-2. **Keep it boring.** Quote expansions (`"$var"`, `"$(cmd)"`). Prefer `printf` over
-   `echo`. Don't parse `ls`. Avoid `eval`.
+## Common Checks
 
-3. **Make failure intentional.** Bash: `set -Eeuo pipefail`. POSIX sh: `set -eu`.
-   Handle expected failures with `if command; then ...`. Clean up via an idempotent
-   `trap`.
+Use repo scripts first. Fallbacks:
 
-4. **Validate.** Run `shellcheck` and `shfmt`, then run the script or its tests under
-   the intended shell (use `dash` for POSIX scripts).
-
-## When Shell Is the Wrong Tool
-
-Reach for Python, Go, Rust, or a project-standard language when you need complex data
-structures, JSON/YAML mutation, real concurrency, cross-platform robustness, or many
-unit tests around internal logic.
-
-## Skill Maintenance
-
-An agent may update this skill when the user asks for skill changes. To find the
-source repository, read the single path in this skill directory's `source.txt`,
-then edit the matching source files under that repo's
-`skills/best-practices-shell/`. After updating the source, run the repo root
-`install-skills.sh` script so the installed skill copies are refreshed.
+```sh
+shellcheck path/to/script.sh
+shfmt -d path/to/script.sh
+sh -n path/to/script.sh
+bash -n path/to/script.bash
+```
