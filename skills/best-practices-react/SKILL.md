@@ -14,17 +14,18 @@ introducing new patterns.
 Read selectively:
 
 - [Sections](rules/_sections.md): category order and impact levels
-- `rules/async-*.md`: waterfalls and async scheduling
-- `rules/bundle-*.md`: bundle size and loading
-- `rules/server-*.md`: server components, server actions, caching, serialization
-- `rules/client-*.md`: client data fetching, event listeners, browser storage
-- `rules/rerender-*.md`: state shape, memoization, effects, transitions
-- `rules/rendering-*.md`: hydration, scripts, SVG, browser rendering
-- `rules/js-*.md`: JavaScript hot-path optimizations
-- `rules/advanced-*.md`: specialized patterns that need extra care
+- [Async](rules/async.md): waterfalls and async scheduling
+- [Bundle](rules/bundle.md): bundle size and loading
+- [Server](rules/server.md): server components, server actions, caching, serialization
+- [Client](rules/client.md): client data fetching, event listeners, browser storage
+- [Rerender](rules/rerender.md): state shape, memoization, effects, transitions
+- [Rendering](rules/rendering.md): hydration, scripts, SVG, browser rendering
+- [JavaScript](rules/js.md): JavaScript hot-path optimizations
+- [Advanced](rules/advanced.md): specialized patterns that need extra care
 
-For broad reviews, start with `async`, `bundle`, and `server` rules, then inspect
-lower-impact categories only where the code points to them.
+For broad reviews, start with `rules/async.md`, `rules/bundle.md`, and
+`rules/server.md`, then inspect lower-impact category files only where the code
+points to them.
 
 ## Defaults
 

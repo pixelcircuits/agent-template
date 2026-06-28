@@ -1,13 +1,8 @@
----
-title: Rule Title Here
-impact: MEDIUM
-impactDescription: Optional description of impact (e.g., "20-50% improvement")
-tags: tag1, tag2
----
-
 ## Rule Title Here
 
-**Impact: MEDIUM (optional impact description)**
+**Impact:** MEDIUM - optional impact description, e.g. 20-50% improvement
+
+**Tags:** tag1, tag2
 
 Brief explanation of the rule and why it matters. This should be clear and concise, explaining the performance implications.
 
